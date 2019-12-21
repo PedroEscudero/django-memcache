@@ -1,0 +1,20 @@
+version: '3'
+
+services:
+  web:
+    build: .
+    container_name: django-memchached
+    command: python manage.py runserver 0.0.0.0:8000
+    volumes:
+      - .:/python
+    ports:
+      - "8000:8000"
+    depends_on:
+      - cache
+  cache:
+   image: memcached
+   ports:
+     - "11211:11211"
+   entrypoint:
+    - memcached
+    - -m 64
